@@ -10,6 +10,7 @@ function dockerrun
   set mandatory_params --volume="/etc/shadow:/etc/shadow:ro" $mandatory_params
   set mandatory_params --volume="/etc/sudoers.d:/etc/sudoers.d:ro" $mandatory_params
   set mandatory_params --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" $mandatory_params
+  set mandatory_params --volume="/home/$USER/.ssh:/home/$USER/.ssh:rw" $mandatory_params
 
   docker run -it $mandatory_params --name $argv[1] $argv[2] # argv[1] should be the name, argv[2] should be the image
 end
