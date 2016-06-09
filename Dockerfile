@@ -9,6 +9,8 @@ RUN \
     libgl1-mesa-glx \ 
     libgl1-mesa-dri \
     cmake-curses-gui \
+    qtcreator \
+    ssh \
   && \
   rm -rf /var/lib/apt/lists/*
 
