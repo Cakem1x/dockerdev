@@ -11,6 +11,7 @@ RUN \
     cmake-curses-gui \
     qtcreator \
     ssh \
+    feh \
   && \
   rm -rf /var/lib/apt/lists/*
 
