@@ -6,6 +6,7 @@ RUN \
   apt-get update && \
   apt-get install -y \
     vim \
+    ack-grep \
     libgl1-mesa-glx \ 
     libgl1-mesa-dri \
     cmake-curses-gui \
