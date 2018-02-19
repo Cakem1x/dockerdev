@@ -1,0 +1,30 @@
+function dockerrun() {
+  mandatory_params="--user=$USER"
+  mandatory_params="--env=DISPLAY $mandatory_params"
+  mandatory_params="--env=QT_X11_NO_MITSHM=1 $mandatory_params" # otherwise qt will fail
+  mandatory_params="--volume=/etc/group:/etc/group:ro $mandatory_params"
+  mandatory_params="--volume=/etc/passwd:/etc/passwd:ro $mandatory_params"
+  mandatory_params="--volume=/etc/shadow:/etc/shadow:ro $mandatory_params"
+  mandatory_params="--volume=/etc/sudoers.d:/etc/sudoers.d:ro $mandatory_params"
+  mandatory_params="--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw $mandatory_params"
+  mandatory_params="--volume=/home/$USER/.ssh:/home/$USER/.ssh:rw $mandatory_params"
+
+  docker run -it $mandatory_params --name $1 $2 # argv[1] should be the name, argv[2] should be the image
+}
+
+# Function for storing different docker run parameters for special use-cases.
+# Also detects whether a container already is up or exists and uses attach 
+# or start -a to connect to the container.
+function dockerconnect {
+  # Check if the container with name $argv exists/runs
+  RUNNING=`docker inspect --format='{{ .State.Running }}' $1`
+
+  if $RUNNING ; then
+    echo "Container $1 already running. Exec-ing a new bash."
+    docker exec -it $1 /ros_entrypoint.sh /bin/bash
+  else
+    echo "Container $1 is not running. Starting and attaching to it."
+    docker start $1
+    docker attach $1
+  fi
+}
